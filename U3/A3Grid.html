@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        header{
+            background-color: red;
+            grid-area: header;
+        }
+        aside.left{
+            background-color: lawngreen;
+            grid-area: aside-left;
+        }
+        article{
+            background-color: blue;
+            grid-area: article;
+        }
+        aside.right{
+            background-color: deeppink;
+            grid-area: aside-right;
+        }
+
+        .grid-container{
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: 1fr 3fr 1fr;
+            /*grid-template-rows: 100px 400px;*/
+            grid-template-rows: 25vh 65vh;
+            grid-template-areas:
+                "header header header"
+                "aside-left article aside-right";
+        }
+
+        @media screen and (max-width: 800px) {
+            .grid-container {
+                grid-gap: 20px 10px;
+                grid-template-columns: 1fr 3fr;
+                grid-template-rows: 15vh 90vh 15vh;
+                grid-template-areas:
+                    "header header "
+                    "aside-left article"
+                    "aside-right aside-right";
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .grid-container {
+                grid-gap: 0;
+                grid-template-columns: auto;
+                grid-template-rows: 10vh 10vh 100vh 10vh;
+                grid-template-areas:
+                        "header "
+                        "aside-left"
+                        "article"
+                        "aside-right";
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <header></header>
+        <aside class="left"></aside>
+        <article></article>
+        <aside class="right"></aside>
+    </div>
+</body>
+</html>
