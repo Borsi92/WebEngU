@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uhr mit JavaScript</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        h1{
+            font-size: 60px;
+            font-family: sans-serif;
+        }
+        #uhr{
+            font-size: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Uhr:</h1>
+    <div id="uhr"></div>
+
+<script>
+    uhrzeit();
+    function uhrzeit() {
+        var jetzt = new Date();
+        var h = jetzt.getHours();
+        var m = jetzt.getMinutes();
+        var s = jetzt.getSeconds();
+        m = fuehrendeNull(m);
+        s = fuehrendeNull(s);
+        document.getElementById('uhr').innerHTML = h + ':' + m + ':' + s;
+        setTimeout(uhrzeit, 500);
+    }
+
+    function fuehrendeNull(zahl) {
+        zahl = (zahl < 10 ? '0' : '' )+ zahl;
+        return zahl;
+    }
+</script>
+</body>
+</html>

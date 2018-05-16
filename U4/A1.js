@@ -67,10 +67,9 @@ function methodize(f) {
 
 // Schreiben Sie eine Funktion demethodize(), die eine unäre Methode (z.B. add, mul) in eine binäre Funktion umwandelt.
 // demethodize(Number.prototype.add)(5, 6) soll 11 ergeben.
-//TODO
 function demethodize(f) {
     return function (x,y) {
-        return (x).f(y);
+        return f.call(x,y);
     }
 }
 
@@ -105,14 +104,75 @@ function composeb(f,g) {
 // Schreiben Sie eine Funktion once(), die einer anderen Funktion nur einmal erlaubt, aufgerufen zu werden,
 // z.B. add_once = once(add); add_once(3, 4) soll beim ersten Mal 7 ergeben,
 // beim zweiten Mal soll jedoch add_once(3, 4) einen Fehlerabbruch bewirken.
-
 function once(f) {
     var executed = false;
-    if(!executed){
-        executed = true;
-        return f;
+    
+    return function () {
+        if(!executed){
+            executed = true;
+            return f.apply(null, arguments);
+        }
+        else{
+            alert("ERROR: SCHON BENUTZT!");
+        }
     }
-    else{
-        alert("Can only be executed once!");
+}
+
+// Schreiben Sie eine Fabrik-Funktion counterf(), die zwei Funktionen inc() und dec() berechnet,
+// die einen Zähler hoch- und herunterzählen. Z.B. counter = counterf(10); Dann soll counter.inc() 11 und counter.dec()
+// wieder 10 ergeben.
+
+function counterf(x) {
+
+    var cnt = x;
+
+    return{
+        inc: function() {
+        cnt++;
+        console.log(cnt);
+        },
+
+        dec: function() {
+            cnt--;
+            console.log(cnt);
+        }
+    };
+}
+
+// Schreiben Sie eine rücknehmbare Funktion revocable(), die als Parameter eine Funktion nimmt und diese bei Aufruf ausführt.
+// Sobald die Funktion aber mit revoke() zurück genommen wurde, führt ein erneuter Aufruf zu einem Fehler. Z.B.
+// temp = revocable(alert);
+// temp.invoke(7); // führt zu alert(7);
+// temp.revoke();
+// temp.invoke(8); // Fehlerabbruch!
+
+function revocable(f) {
+
+    var isExecutable = true;
+
+    return {
+        invoke: function (x) {
+            isExecutable ? f(x) : alert("ERROR: Function is revoked!");
+        },
+        revoke: function () {
+            isExecutable = false;
+        }
+    }
+}
+
+// Implementieren Sie ein "Array Wrapper"-Objekt mit den Methoden get, store und append,
+// so dass ein Angreifer keinen Zugriff auf das innere, private Array hat.
+
+function arrayWrapper(a) {
+
+    var array = a;
+
+    return{
+        get: function (i) {
+            return a[i];
+        },
+        append: function (item) {
+            a.push(item);
+        }
     }
 }
