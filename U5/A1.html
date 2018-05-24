@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Überschrift</h1>
+
+<ul></ul>
+
+<script>
+    const einstelligeZahlen = ["null","ein","zwei","drei","vier","fünf","sechs","sieben","acht","neun","zehn","elf","zwölf"];
+    const zehnerZahlen = ["zwanzig","dreißig","vierzig","fünfzig","sechzig","siebzig","achtzig","neunzig"];
+
+    const header = document.querySelector("h1");
+    const list = document.querySelector("ul");
+    for(let i = 0; i < 100; i++){
+        let li = document.createElement("li");
+        let zahl;
+        if(i < 13){
+            zahl = einstelligeZahlen[i];
+        }
+        else if(i < 20){
+            zahl = einstelligeZahlen[i%10] + "" + "zehn";
+        }
+        else{
+            let a = i % 10;
+            if(a === 0){
+                zahl = zehnerZahlen[i/10 - 2];
+            }
+            else{
+                zahl = einstelligeZahlen[a] + "und" + zehnerZahlen[Math.floor(i/10) - 2];
+            }
+        }
+        li.appendChild(document.createTextNode(i + ": " + zahl));
+        list.appendChild(li);
+        if(i % 2 === 0){
+            li.style.background = "red";
+        }
+        else{
+            li.style.background = "green";
+        }
+        li.addEventListener("mouseover", event => header.innerText = "" + i);
+    }
+</script>
+</body>
+</html>
