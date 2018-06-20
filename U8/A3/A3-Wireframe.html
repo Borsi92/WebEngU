@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
-    <script src="A3menues.js"></script>
+    <script src="A3-LoadJSON.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -14,6 +14,11 @@
         }
         h1{
             text-align: center;
+        }
+        #menuChange{
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
         }
         li a{
             text-decoration: none;
@@ -105,9 +110,9 @@
             grid-template-columns: 25% 75%;
             grid-template-rows: 40px 400px 200px;
             grid-template-areas:
-                "header header"
-                "aside main"
-                ". main";
+                    "header header"
+                    "aside main"
+                    ". main";
         }
 
         @media screen and (max-width: 600px) {
@@ -141,27 +146,34 @@
 </head>
 <body>
 
-    <h1>Heading</h1>
+<h1>Heading</h1>
 
-    <div class="grid-container">
+<a id="menuChange" href="Einloggen.php">Menü ändern</a>
 
-        <header>
-        </header>
-        <aside>
-        </aside>
-        <main>
-        </main>
-        <footer>
-            <a href="#home">Footer</a>
-            <a class="active" href="#contact">RECENT</a>
-            <a href="#about">ALL FILES</a>
-        </footer>
-    </div>
+<div class="grid-container">
+
+    <header>
+    </header>
+    <aside>
+    </aside>
+    <main>
+    </main>
+    <footer>
+        <a href="#home">Footer</a>
+        <a class="active" href="#contact">RECENT</a>
+        <a href="#about">ALL FILES</a>
+    </footer>
+</div>
 
 <script>
     const header = document.querySelector("header");
     const aside = document.querySelector("aside");
     const main = document.querySelector("main");
+
+    let menues;
+    loadJSON(function(response) {
+        menues = JSON.parse(response);
+    });
 
     for(let key in menues){
         let menuElement = document.createElement("a");
@@ -190,7 +202,7 @@
     }
 
     // um das Spalten-Layout für die Anzahl der Spalten dynamisch anzupassen
-     header.style.gridTemplateColumns = "auto ".repeat(Object.keys(menues).length);
+    header.style.gridTemplateColumns = "auto ".repeat(Object.keys(menues).length);
 
 </script>
 

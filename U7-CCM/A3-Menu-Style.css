@@ -1,0 +1,20 @@
+.menu{
+    background-color: #5dccfb;
+    height: 40px;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.menu a{
+    text-decoration: none;
+    font-family: sans-serif;
+    color: black;
+    text-align: center;
+    /* um die Links vertikal zu zentrieren */
+    display: grid;
+    align-items: center;
+}
+
+.menu a:hover{
+    background-color: #0097fb;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <svg width="600" height="600">
+        <circle cx="300" cy="300" r="250" fill="white" stroke="black" stroke-width="10"/>
+        <circle cx="300" cy="300" r="10" fill="black"/>
+
+        <line id="stunden" x1="300" x2="300" y1="300" y2="150" stroke="black" stroke-width="8"></line> <!-- Stunden Zeiger -->
+        <line id="minuten" x1="300" x2="300" y1="300" y2="70" stroke="black" stroke-width="5"></line> <!-- Minuten Zeiger -->
+        <line id="sekunden" x1="300" x2="300" y1="300" y2="70" stroke="red" stroke-width="2"></line> <!-- Sekunden Zeiger -->
+
+    </svg>
+
+    <div><input id="btn" type="button" value="Change Smoothness"></div>
+
+    <script>
+
+        function drawMinLines() {
+            const svgChart = document.querySelector("svg");
+            let grad = 0;
+            for(let i = 0; i < 60; i++){
+                let line = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "line"
+                );
+                line.setAttribute("x1",300);
+                line.setAttribute("y1",50);
+                if(i%5 === 0){
+                    line.setAttribute("x2",300);
+                    line.setAttribute("y2",110);
+                    line.setAttribute("stroke-width", 3);
+                }
+                else{
+                    line.setAttribute("x2",300);
+                    line.setAttribute("y2",70);
+                    line.setAttribute("stroke-width", 2);
+                }
+                line.setAttribute("stroke", "black");
+                line.setAttribute("transform", "rotate(" + grad + ", 300, 300)");
+                svgChart.appendChild(line);
+
+                grad += 6;
+            }
+        }
+
+        let smooth = false;
+
+        function bewegeZeiger(zeiger, grad) {
+            zeiger.setAttribute("transform", "rotate(" + grad + ", 300, 300)");
+        }
+
+        const stundenZeiger = document.getElementById("stunden");
+        const minutenZeiger = document.getElementById("minuten");
+        const sekundenZeiger = document.getElementById("sekunden");
+
+        function updateZeit() {
+            console.log(smooth);
+            let d = new Date();
+            bewegeZeiger(stundenZeiger, 30 * d.getHours());
+            bewegeZeiger(minutenZeiger, 6 * d.getMinutes());
+            if(smooth){
+                bewegeZeiger(sekundenZeiger, 6 * (d.getSeconds() + d.getMilliseconds()/1000));
+            }
+            else{
+                bewegeZeiger(sekundenZeiger, 6 * d.getSeconds());
+            }
+        }
+
+        // Mit dem Button kann die Smoothness des Sekundenzeigers geändert werden
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click", function () {
+            if(smooth){
+                smooth = false;
+                clearInterval(a);
+                a = setInterval(updateZeit, 1000);
+            }
+            else{
+                smooth = true;
+                clearInterval(a);
+                a = setInterval(updateZeit, 10);
+            }
+        });
+
+        // Zeichne Markierungen
+        drawMinLines();
+
+        let a = setInterval(updateZeit, 1000);
+    </script>
+
+</body>
+</html>

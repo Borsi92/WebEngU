@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<svg width="800" height="600" style="background-color: rgba(255,255,255,0)"></svg>
+
+<script>
+
+    const chartData = {
+        dataLabels: [2017, 2018, 2019, 2020, 2021, 2022],
+        data: [150, 78, 32, 17, 10, 5],
+        title: "Dolphins Wildlife Population",
+        ticks: 20
+    };
+
+    function drawChart(){
+        const svgChart = document.querySelector("svg");
+
+        const maxValue = Math.max(...chartData.data);
+        console.log("MAX: " + maxValue);
+        const startHeight = svgChart.getBoundingClientRect().height * 0.8;
+        const startWidth = svgChart.getBoundingClientRect().width * 0.1;
+        console.log("START HEIGHT: " + startHeight + ", START WIDTH: " + startWidth);
+        const maxHeight = svgChart.getBoundingClientRect().height * 0.1;
+        const maxWidth = svgChart.getBoundingClientRect().width * 0.95;
+
+        drawLines(svgChart, maxValue, startHeight, startWidth, maxHeight, maxWidth);
+        drawBars(svgChart, maxValue, startHeight, startWidth, maxHeight, maxWidth);
+
+        // Title
+        let text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+        text.setAttribute("x",svgChart.getBoundingClientRect().width/2);
+        text.setAttribute("y",25);
+        text.setAttribute("fill", "#3c3c3c");
+        text.setAttribute("font-family", "verdana");
+        text.setAttribute("font-size", "25");
+        text.setAttribute("text-anchor", "middle");
+        text.innerHTML = chartData.title;
+        svgChart.appendChild(text);
+    }
+
+    function drawBars(svgChart, maxValue, startHeight, startWidth, maxHeight, maxWidth) {
+        const barsNum = chartData.data.length;
+
+        const ticksLength = (maxWidth - startWidth) / barsNum;
+        const barWidth = ticksLength/2;
+        const unitSize = (startHeight-maxHeight)/160;
+
+        for(let i = 0; i < barsNum; i++){
+            // Bars
+            let rect = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "rect"
+            );
+            rect.setAttribute("x",startWidth + barWidth/2 + 2*barWidth * i);
+            rect.setAttribute("y",startHeight - chartData.data[i] * unitSize);
+            rect.setAttribute("width", barWidth);
+            rect.setAttribute("height", chartData.data[i] * unitSize);
+            console.log(chartData.data[i] * unitSize);
+            rect.setAttribute("fill", "#5a7fff");
+
+            // Animation
+            let anim = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "animate"
+            );
+            anim.setAttribute("attributeName", "height");
+            anim.setAttribute("from", 0);
+            anim.setAttribute("to", chartData.data[i] * unitSize);
+            anim.setAttribute("begin", "0s");
+            anim.setAttribute("dur", "1s");
+            anim.setAttribute("fill", "freeze");
+
+            rect.appendChild(anim);
+
+            let anim2 = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "animate"
+            );
+            anim2.setAttribute("attributeName", "y");
+            anim2.setAttribute("from", startHeight - chartData.data[i] * unitSize + chartData.data[i] * unitSize);
+            anim2.setAttribute("to", startHeight - chartData.data[i] * unitSize);
+            anim2.setAttribute("begin", "0s");
+            anim2.setAttribute("dur", "1s");
+            anim2.setAttribute("fill", "freeze");
+
+            rect.appendChild(anim2);
+
+            svgChart.appendChild(rect);
+
+            // Labels
+            let text = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+            text.setAttribute("x",startWidth + barWidth + 2*barWidth * i);
+            text.setAttribute("y",startHeight + 15);
+            text.setAttribute("fill", "#3c3c3c");
+            text.setAttribute("font-family", "verdana");
+            text.setAttribute("text-anchor", "middle");
+            text.innerHTML = chartData.dataLabels[i];
+            svgChart.appendChild(text);
+        }
+    }
+
+    function drawLines(svgChart, maxValue, startHeight, startWidth, maxHeight, maxWidth) {
+        const ticksNum = Math.floor(maxValue/chartData.ticks) + 1;
+        console.log("TICKS: " + ticksNum);
+        const ticksLength = (startHeight - maxHeight) / ticksNum;
+
+        let lineHeight = 0;
+
+        for(let i = 0; i <= ticksNum; i++){
+            // Line
+            let line = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "line"
+            );
+            line.setAttribute("x1",startWidth);
+            line.setAttribute("y1",startHeight - lineHeight);
+            line.setAttribute("x2",maxWidth);
+            line.setAttribute("y2",startHeight - lineHeight);
+            line.setAttribute("stroke-width", 1);
+            line.setAttribute("stroke", "#3c3c3c");
+            svgChart.appendChild(line);
+
+            // Line Label
+            let text = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+            text.setAttribute("x",startWidth - 20);
+            text.setAttribute("y",startHeight - lineHeight + 5);
+            text.setAttribute("fill", "#3c3c3c");
+            text.setAttribute("font-family", "verdana");
+            text.setAttribute("text-anchor", "end");
+            text.innerHTML = i * chartData.ticks;
+            svgChart.appendChild(text);
+
+            lineHeight += ticksLength;
+        }
+    }
+
+    drawChart();
+</script>
+
+</body>
+</html>
