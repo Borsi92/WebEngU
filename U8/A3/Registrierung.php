@@ -24,7 +24,7 @@
     </fieldset>
 </form>
 
-<a href="A3-Wireframe.html">Zurück zur Hauptseite</a>
+<a href="index.php">Zurück zur Hauptseite</a>
 
 <?php
 if(isset($_POST['SubmitButton'])){
@@ -51,7 +51,7 @@ if(isset($_POST['SubmitButton'])){
 
         if ( file_put_contents( $file, $newLine, FILE_APPEND | LOCK_EX ) ){
             echo "<script>alert('Registrierung erfolgreich!')</script>";
-            header("Location: ./A3-Wireframe.html");
+            header("Location: ./index.php");
             return;            
         }
 

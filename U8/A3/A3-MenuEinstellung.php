@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Menü Einstellungen</title>
-    <script src="A3-LoadJSON.js"></script>
     <style>
         textarea {
             margin: 1rem;
@@ -36,7 +35,7 @@
     </fieldset>
 </form>
 
-<a href="A3-Wireframe.html">Zurück zur Hauptseite</a>
+<a href="index.php">Zurück zur Hauptseite</a>
 
 <?php
 $file = './data.json';

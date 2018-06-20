@@ -26,7 +26,7 @@
     </fieldset>
 </form>
 
-<a href="A3-Wireframe.html">Zurück zur Hauptseite</a>
+<a href="index.php">Zurück zur Hauptseite</a>
 
 <?php
 if(isset($_POST['SubmitButton'])){

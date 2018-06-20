@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
-    <script src="A3-LoadJSON.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -165,15 +164,18 @@
     </footer>
 </div>
 
+<?php
+$file = './data.json';
+$contents = file_get_contents($file);
+$json = json_decode($contents,true);
+?>
+
 <script>
     const header = document.querySelector("header");
     const aside = document.querySelector("aside");
     const main = document.querySelector("main");
 
-    let menues;
-    loadJSON(function(response) {
-        menues = JSON.parse(response);
-    });
+    let menues = <?PHP echo json_encode( $json ) ?>;
 
     for(let key in menues){
         let menuElement = document.createElement("a");
