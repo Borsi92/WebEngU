@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+<body>
+
+<div id="text"></div>
+
+<script>
+
+    const textElement = document.querySelector("#text");
+
+    let textArray1 = [];
+    let textArray2 = [];
+
+    function shuffleTxtFiles() {
+        return new Promise(function (resolve, reject) {
+
+            let resultString = "";
+            textArray1.forEach((line, index) => {
+                resultString += line + " " + textArray2[index] + "<br>";
+            });
+
+            console.log(resultString);
+            console.log("textArray1: " + textArray1.length);
+            console.log("textArray2: " + textArray2.length);
+
+            if(!resultString.includes("undefined")){
+                resolve(resultString);
+            }
+            else{
+                reject("ERROR");
+            }
+        });
+    }
+
+    // Lade File 1
+    fetch('http://www2.inf.h-brs.de/~sborsu2s/A.txt')
+    .then(function (response) {
+        response.text().then(function (text) {
+            textArray1 = text.split("\n");
+        });
+    })
+    .catch(function(error) {
+        console.log('Request failed', error);
+    }).then(function () {
+        return shuffleTxtFiles();
+    }).then(function (fromResolve) {
+        textElement.innerHTML = fromResolve;
+    }).catch(function (fromReject) {
+        textElement.innerHTML = fromReject;
+    });
+
+    // Lade File 2
+    fetch('http://www2.inf.h-brs.de/~sborsu2s/B.txt')
+    .then(function (response) {
+        response.text().then(function (text) {
+            textArray2 = text.split("\n");
+        });
+    })
+    .catch(function(error) {
+        console.log('Request failed', error);
+    }).then(function () {
+        return shuffleTxtFiles();
+    }).then(function (fromResolve) {
+        textElement.innerHTML = fromResolve;
+    }).catch(function (fromReject) {
+        textElement.innerHTML = fromReject;
+    });
+
+</script>
+
+</body>
+</html>

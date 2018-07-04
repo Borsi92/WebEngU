@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Slots</title>
+    <style>
+        my-menu #panels{
+
+        }
+    </style>
+</head>
+<body>
+
+<my-menu>
+    <button slot="title" id="t1">Title 1</button>
+    <button slot="title" id="t2" selected>Title 2</button>
+    <button slot="title" id="t3">Title 3</button>
+    <section slot="content" id="c1">content panel 1</section>
+    <section slot="content" id="c2">content panel 2</section>
+    <section slot="content" id="c3">content panel 3</section>
+</my-menu>
+
+<script>
+    customElements.define('my-menu', class extends HTMLElement {
+        constructor() {
+            super(); // always call super() first in the ctor.
+            const shadowRoot = this.attachShadow({mode: 'open'});
+            shadowRoot.innerHTML = `
+                <style>
+                    #panels { border-style: solid;}
+                </style>
+                <div id="tabs">
+                    <slot name="title"></slot>
+                </div>
+                <div id="panels">
+                    <slot name="content"></slot>
+                </div>
+                `;
+            this.addEventListener('click', e => {
+                console.log( e.target.id );
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

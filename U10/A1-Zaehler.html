@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Komponenten Zähler</title>
+</head>
+<body>
+
+<zaehler-component></zaehler-component>
+
+<script>
+    class ZaehlerComponent extends HTMLElement {
+        constructor() {
+            super();
+            this.cnt = 0;
+            this.style.fontSize = "200px";
+            this.addEventListener('click', e => {
+                this.innerHTML = ++this.cnt;
+            });
+        }
+        connectedCallback(){
+            this.innerHTML = this.cnt;
+        }
+    }
+    window.customElements.define('zaehler-component', ZaehlerComponent);
+</script>
+
+</body>
+</html>
